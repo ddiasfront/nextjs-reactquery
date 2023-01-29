@@ -1,9 +1,24 @@
 // pages/posts.jsx
 import axios from "axios";
 import { dehydrate, QueryClient, useQuery } from "react-query";
+import { gql } from "@apollo/client";
+import client from "../apollo-client";
 
 async function getPosts() {
-  const { data } = await axios.get("https://swapi.dev/api/people/1");
+  const { data } = await client.query({
+    query: gql`
+      query Users {
+        users {
+          email
+          createdAt
+          name
+          password
+          role
+        }
+      }
+    `,
+  });
+
   console.log(data);
   return data;
 }
